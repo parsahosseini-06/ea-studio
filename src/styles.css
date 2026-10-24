@@ -354,16 +354,17 @@ p { max-width: 64ch; text-wrap: pretty; }
   .ribbon-track { animation: marquee 80s linear infinite; }
   .ribbon:hover .ribbon-track { animation-play-state: paused; }
 }
-/* hover focus: the image under the pointer stays vivid, the rest recede (the strip already pauses on hover) */
+/* hover focus: the image under the pointer stays vivid, the others turn into a photographic negative (the strip already pauses on hover) */
 @media (any-hover: hover) {
   .ribbon-set li { transform-origin: 50% 100%; }
   .ribbon-set li:hover .label { color: var(--fg); }
   .ribbon-set li:hover img { filter: saturate(1.15) contrast(1.04); }
-  .ribbon-track:has(li:hover) li:not(:hover) { opacity: 0.35; }
+  /* border colour is pre-inverted (#3a4553 -> #c5baac) so the frame stays slate after the filter */
+  .ribbon-track:has(li:hover) li:not(:hover) img { filter: invert(1); border-color: #c5baac; }
 }
 @media (any-hover: hover) and (prefers-reduced-motion: no-preference) {
-  .ribbon-set li { transition: opacity 450ms var(--ease), transform 600ms var(--ease); }
-  .ribbon-set li img { transition: filter 450ms var(--ease); }
+  .ribbon-set li { transition: transform 600ms var(--ease); }
+  .ribbon-set li img { transition: filter 450ms var(--ease), border-color 450ms var(--ease); }
   .ribbon-set li:hover { transform: scale(1.04); }
 }
 @media (prefers-reduced-motion: reduce) {

@@ -17,7 +17,6 @@ npm run build    # type-check + production build into dist/
 
 ## Open items for the owner
 - Replace placeholder contact data in `src/content.ts` (`contact`): phone, email, Instagram.
-- Daroos years, area and design team were a copy of Dezashib on the Framer site, so they are hidden; add the real values to `projects` (and the year back to its `ribbon` caption).
 - Swap the Framer-exported images for original high-resolution photos; add a photo of the finished Nava House and a vector ground-floor plan to turn the drawings step into an SVG line-drawing animation.
 - Add an absolute `og:image` in `index.html` once the production URL is known.
 - Confirm what "Development" means in Services, and the studio tagline.

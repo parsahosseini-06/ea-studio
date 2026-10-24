@@ -35,7 +35,6 @@ export type Project = {
   gallery: Img[]
 }
 
-// TODO(owner): Daroos years, area and design team were a copy of Dezashib on the Framer site, so they are left out until the real values are known.
 export const projects: Project[] = [
   {
     id: 'dezashib',
@@ -54,30 +53,10 @@ export const projects: Project[] = [
       img('dez-2', 'Street facade in black steel, timber and concrete with a planted wall'),
     ],
   },
-  {
-    id: 'daroos',
-    title: 'Daroos · Residential',
-    meta: [
-      ['Location', 'Tehran'],
-      ['Principal architect', 'Ehsan Ashtari'],
-    ],
-    lead: img('dar-1', 'Classical living room with a crystal chandelier, wall panelling and pale marble floor'),
-    gallery: [
-      img('dar-1', 'Classical living room with a crystal chandelier, wall panelling and pale marble floor'),
-      img('dar-2', 'Multi-storey residential building with balconies, planting and palm trees'),
-      img('dar-3', 'Low villa with a lit canopy, palm trees and a stepping-stone path'),
-    ],
-  },
 ]
 
-export const ribbon = [
-  { fig: projects[1].gallery[1], cap: 'Daroos' },
-  { fig: projects[0].gallery[0], cap: 'Dezashib · 2023–2024' },
-  { fig: projects[1].gallery[2], cap: 'Daroos' },
-  { fig: projects[0].gallery[1], cap: 'Dezashib · 2023–2024' },
-  { fig: projects[1].gallery[0], cap: 'Daroos' },
-  { fig: projects[0].gallery[2], cap: 'Dezashib · 2023–2024' },
-]
+// Three images repeated so one set of the looping strip is wider than the viewport.
+export const ribbon = [0, 1, 2, 0, 1, 2].map((i) => ({ fig: projects[0].gallery[i], cap: 'Dezashib · 2023–2024' }))
 
 export const nava = {
   title: 'Nava House',

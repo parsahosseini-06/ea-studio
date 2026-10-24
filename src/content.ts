@@ -168,6 +168,15 @@ export const studio = {
   ],
 }
 
+// Hero: the plan drawing (Nava House drawing 02) and the studio details row under it.
+export const heroPlan = nava.steps[1].fig
+export const facts: [string, string][] = [
+  ['Studio', 'EA STUDIO'],
+  ['Location', 'Tehran'],
+  ['Disciplines', 'Architecture · Interiors · Landscape'],
+  ['Principal', studio.name],
+]
+
 export const cta = {
   title: 'Let’s create something meaningful.',
   body: 'Tell us about your site, your family and your timeline. We reply personally.',

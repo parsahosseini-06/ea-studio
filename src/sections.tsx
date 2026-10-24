@@ -1,23 +1,30 @@
 import { useEffect, useRef, useState } from 'react'
-import { approach, contact, cta, hero, nav, nava, projects, ribbon, services, studio } from './content'
+import { approach, contact, cta, facts, hero, heroPlan, nav, nava, projects, ribbon, services, studio } from './content'
 import { Fill, Pic, Roll, useActiveSection, useHeroIntro, type OpenLb } from './lib'
 
 const navIds = nav.map((n) => n.id)
 
-function SectionHead({ n, title, aside }: { n?: string; title: string; aside?: string }) {
+/** Title-block strip that opens each section, like the header row of a drawing sheet. Decorative: the heading carries the meaning. */
+function Strip({ cells }: { cells: string[] }) {
+  return (
+    <div className="strip" aria-hidden="true">
+      {cells.map((c) => (
+        <span key={c}>{c}</span>
+      ))}
+    </div>
+  )
+}
+
+function SectionHead({ title, aside }: { title: string; aside?: string }) {
   return (
     <div className="shead rv">
-      <h2>
-        {n && <span className="num">{n}</span>}
-        {title}
-      </h2>
+      <h2>{title}</h2>
       {aside && <p className="lead">{aside}</p>}
     </div>
   )
 }
 
 export function Header() {
-  const [solid, setSolid] = useState(false)
   const [hide, setHide] = useState(false)
   const [pill, setPill] = useState(false)
   const menu = useRef<HTMLDialogElement>(null)
@@ -27,7 +34,6 @@ export function Header() {
     let last = scrollY
     const onScroll = () => {
       const y = scrollY
-      setSolid(y > 80)
       setHide(y > 320 && y > last)
       const c = document.getElementById('contact')
       setPill(y > innerHeight * 0.8 && (!c || c.getBoundingClientRect().top > innerHeight))
@@ -40,8 +46,8 @@ export function Header() {
 
   return (
     <>
-      <header className={`header${solid ? ' solid' : ''}${hide ? ' hide' : ''}`}>
-        <div className="wrap header-in">
+      <header className={`header${hide ? ' hide' : ''}`}>
+        <div className="header-in">
           <a className="wordmark" href="#top" aria-label="EA STUDIO, back to top">EA STUDIO</a>
           <nav className="nav" aria-label="Primary">
             {nav.map((n) => (
@@ -88,18 +94,40 @@ export function Hero() {
   useHeroIntro()
   return (
     <section className="hero" id="top">
-      <div className="hero-copy">
-        <p className="label rise">{hero.eyebrow}</p>
-        <h1 className="rise">{hero.title}</h1>
-        <p className="lead rise">{hero.sub}</p>
-        <p className="hero-cta rise">
-          <a className="btn" href="#work"><Roll text="View selected work" /></a>
-          <a className="textlink" href="#contact">Start a project</a>
-        </p>
+      <Strip cells={['Sheet 00', 'Cover', 'EA STUDIO', 'Tehran']} />
+      <div className="wrap hero-body">
+        <p className="hero-mark rise" aria-hidden="true">EA<br />Studio</p>
+        <div className="hero-row">
+          <div className="hero-copy">
+            <h1 className="rise">{hero.title}</h1>
+            <p className="lead rise">{hero.sub}</p>
+            <p className="hero-cta rise">
+              <a className="btn" href="#work"><Roll text="View selected work" /></a>
+              <a className="textlink" href="#contact">Start a project</a>
+            </p>
+          </div>
+          <figure className="hero-plan rise">
+            <div className="hero-plan-img">
+              <Pic img={heroPlan} eager sizes="(min-width: 1024px) 45vw, 100vw" />
+            </div>
+            <figcaption>
+              <span>Nava House · Ground floor plan</span>
+              <span className="tab">Drawing 02</span>
+            </figcaption>
+          </figure>
+        </div>
+        <figure className="hero-img">
+          <Pic img={hero.image} eager high sizes="100vw" />
+        </figure>
       </div>
-      <figure className="hero-img">
-        <Pic img={hero.image} eager high sizes="(min-width: 1024px) 58vw, 100vw" />
-      </figure>
+      <dl className="facts">
+        {facts.map(([k, v]) => (
+          <div key={k}>
+            <dt>{k}</dt>
+            <dd>{v}</dd>
+          </div>
+        ))}
+      </dl>
     </section>
   )
 }
@@ -125,9 +153,10 @@ export function Ribbon() {
 
 export function Work({ open }: { open: OpenLb }) {
   return (
-    <section className="section" id="work">
-      <div className="wrap">
-        <SectionHead n="01" title="Selected work" aside="Houses and interiors shaped around light, privacy and the way a family lives." />
+    <section className="section dark" id="work">
+      <Strip cells={['Sheet 01', 'Selected work', 'EA STUDIO', 'Tehran']} />
+      <div className="wrap sec">
+        <SectionHead title="Selected work" aside="Houses and interiors shaped around light, privacy and the way a family lives." />
         {projects.map((p) => (
           <article className="project" key={p.id}>
             <button className="project-fig rf" onClick={() => open(p.gallery, 0)} aria-label={`Open ${p.title} gallery`}>
@@ -178,11 +207,11 @@ export function Nava({ open }: { open: OpenLb }) {
   const figs = nava.steps.map((s) => s.fig)
 
   return (
-    <section className="section dark nava" id="nava-house">
-      <div className="wrap">
-        <SectionHead n="02" title="Featured project" />
+    <section className="section nava" id="nava-house">
+      <Strip cells={['Sheet 02', 'Featured project', 'Niavaran', '2026']} />
+      <div className="wrap sec">
         <div className="nava-head rv">
-          <h3>{nava.title}</h3>
+          <h2>{nava.title}</h2>
           <p className="label">{nava.sub}</p>
           <p className="lead">{nava.intro}</p>
           <dl className="tb tb--grid">
@@ -243,35 +272,37 @@ export function Nava({ open }: { open: OpenLb }) {
 export function Approach() {
   return (
     <section className="section" id="approach">
-      <div className="wrap approach">
-        <div className="approach-side">
-          <SectionHead n="03" title="Our approach" aside={approach.intro} />
+      <Strip cells={['Sheet 03', 'Our approach', 'EA STUDIO', 'Notes 01–03']} />
+      <div className="wrap sec">
+        <div className="approach">
+          <div className="approach-side">
+            <SectionHead title="Our approach" aside={approach.intro} />
+          </div>
+          <div className="approach-items">
+            {approach.items.map((it) => (
+              <article className="a-item" key={it.n}>
+                <p className="label rv"><span className="num">{it.n}</span> {it.title}</p>
+                <h3 className="rv">{it.sub}</h3>
+                <p className="rv">{it.body}</p>
+                {'fig' in it && it.fig && (
+                  <figure className="rf"><Pic img={it.fig} eager sizes="(min-width: 1024px) 50vw, 100vw" /></figure>
+                )}
+                {'swatches' in it && it.swatches && (
+                  <ul className="swatches">
+                    {it.swatches.map((s, i) => (
+                      <li className="rf" key={s.src}>
+                        <Pic img={s} eager sizes="(min-width: 1024px) 24vw, 50vw" />
+                        <span className="label">{it.swatchNames?.[i]}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            ))}
+          </div>
         </div>
-        <div className="approach-items">
-          {approach.items.map((it) => (
-            <article className="a-item" key={it.n}>
-              <p className="label rv"><span className="num">{it.n}</span> {it.title}</p>
-              <h3 className="rv">{it.sub}</h3>
-              <p className="rv">{it.body}</p>
-              {'fig' in it && it.fig && (
-                <figure className="rf"><Pic img={it.fig} eager sizes="(min-width: 1024px) 50vw, 100vw" /></figure>
-              )}
-              {'swatches' in it && it.swatches && (
-                <ul className="swatches">
-                  {it.swatches.map((s, i) => (
-                    <li className="rf" key={s.src}>
-                      <Pic img={s} eager sizes="(min-width: 1024px) 24vw, 50vw" />
-                      <span className="label">{it.swatchNames?.[i]}</span>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </article>
-          ))}
-        </div>
+        <SketchStack />
       </div>
-
-      <SketchStack />
     </section>
   )
 }
@@ -280,7 +311,7 @@ function SketchStack() {
   const [i, setI] = useState(0)
   const n = approach.sketches.length
   return (
-    <div className="wrap sketches">
+    <div className="sketches">
       <h3 className="rv">{approach.sketchTitle}</h3>
       <div className="sk">
         <div
@@ -318,15 +349,16 @@ function SketchStack() {
 
 export function Services() {
   return (
-    <section className="section services" aria-labelledby="services-h">
+    <section className="section dark services" aria-labelledby="services-h">
+      <div className="strip strip--bar">
+        <h2 id="services-h">Schedule of services</h2>
+        <span>{services.length} disciplines</span>
+      </div>
       <div className="wrap">
-        <div className="shead rv">
-          <h2 id="services-h">Services</h2>
-        </div>
         <ul className="svc">
           {services.map((s) => (
             <li key={s.name} className="rv">
-              <h3>/ {s.name}</h3>
+              <h3>{s.name}</h3>
               <p>{s.body}</p>
             </li>
           ))}
@@ -339,26 +371,27 @@ export function Services() {
 export function Studio() {
   return (
     <section className="section" id="studio">
-      <div className="wrap studio">
-        <figure className="studio-portrait rf">
-          <Pic img={studio.portrait} eager sizes="(min-width: 1024px) 40vw, 100vw" />
-        </figure>
-        <div className="studio-copy">
-          <SectionHead n="04" title="Studio" />
-          <p className="label rv">{studio.name} — {studio.role}</p>
-          <p className="lead rv">{studio.bio}</p>
-          <Fill text={studio.manifesto} />
-          <dl className="values">
-            {studio.values.map(([k, v], i) => (
-              <div className="rv" key={k}>
-                <dt><span className="num">0{i + 1}</span> {k}</dt>
-                <dd>{v}</dd>
-              </div>
-            ))}
-          </dl>
+      <Strip cells={['Sheet 04', 'Studio', 'Principal architect', studio.name]} />
+      <div className="wrap sec">
+        <div className="studio">
+          <figure className="studio-portrait rf">
+            <Pic img={studio.portrait} eager sizes="(min-width: 1024px) 40vw, 100vw" />
+          </figure>
+          <div className="studio-copy">
+            <SectionHead title="Studio" />
+            <p className="label rv">{studio.name} — {studio.role}</p>
+            <p className="lead rv">{studio.bio}</p>
+            <Fill text={studio.manifesto} />
+            <dl className="values">
+              {studio.values.map(([k, v], i) => (
+                <div className="rv" key={k}>
+                  <dt><span className="num">0{i + 1}</span> {k}</dt>
+                  <dd>{v}</dd>
+                </div>
+              ))}
+            </dl>
+          </div>
         </div>
-      </div>
-      <div className="wrap">
         <dl className="stats">
           {studio.stats.map(([n, l]) => (
             <div className="rv" key={l}>
@@ -374,8 +407,9 @@ export function Studio() {
 
 export function Contact() {
   return (
-    <section className="section dark contact" id="contact">
-      <div className="wrap contact-in">
+    <section className="section contact" id="contact">
+      <Strip cells={['Sheet 05', 'Contact', 'EA STUDIO', 'Tehran']} />
+      <div className="wrap sec contact-in">
         <div>
           <h2 className="rv">{cta.title}</h2>
           <p className="lead rv">{cta.body}</p>

@@ -1,0 +1,82 @@
+@font-face { font-family: 'Satoshi'; src: url('/fonts/satoshi-400.woff2') format('woff2'); font-weight: 400; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('/fonts/satoshi-500.woff2') format('woff2'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'Satoshi'; src: url('/fonts/satoshi-700.woff2') format('woff2'); font-weight: 700; font-display: swap; }
+
+:root {
+  /* palette — every text pair below is >= 4.5:1 on the surface it is used on */
+  --color-bg: #d4d3cf;
+  --color-surface: #ecebe8;
+  --color-surface-dark: #0f0f0f;
+  --color-ink: #161616;
+  --color-ink-muted: #4a4a48;
+  --color-line: rgb(22 22 22 / 0.28);
+  --color-on-dark: #e6e6e6;
+  --color-on-dark-muted: #a3a3a3;
+  --color-on-dark-faint: #6e6e6e;
+  --color-line-dark: rgb(230 230 230 / 0.24);
+  --color-accent: #2f4c48;
+  --color-accent-hover: #385c56;
+  --color-accent-press: #253c38;
+  --color-on-accent: #f2f2f2;
+  --color-accent-on-dark: #6aafa2;
+
+  /* semantic, swapped by .dark */
+  --fg: var(--color-ink);
+  --fg-muted: var(--color-ink-muted);
+  --line: var(--color-line);
+  --focus: var(--color-accent);
+  --btn-bg: var(--color-accent);
+  --btn-bg-hover: var(--color-accent-hover);
+  --btn-fg: var(--color-on-accent);
+  --num: var(--color-accent);
+
+  /* type */
+  --font: 'Satoshi', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --fs-display: clamp(2.5rem, 1rem + 3.6vw, 4.5rem);
+  --fs-title: clamp(1.875rem, 1.2rem + 2.2vw, 3rem);
+  --fs-project: clamp(1.5rem, 1.1rem + 1.2vw, 2rem);
+  --fs-lead: clamp(1.1875rem, 1rem + 0.7vw, 1.5rem);
+  --fs-body: clamp(1rem, 0.95rem + 0.15vw, 1.125rem);
+  --fs-label: 0.8125rem;
+
+  /* space (4px base) */
+  --s-1: 4px; --s-2: 8px; --s-3: 12px; --s-4: 16px; --s-5: 24px; --s-6: 32px;
+  --s-7: 48px; --s-8: 64px; --s-9: 80px; --s-10: 96px; --s-11: 128px; --s-12: 160px;
+  --section-y: clamp(64px, 8vw + 16px, 160px);
+
+  /* layout */
+  --margin: 24px;
+  --gutter: 16px;
+  --header-h: 64px;
+  --maxw: 1320px;
+
+  /* motion */
+  --d-fast: 150ms;
+  --d-base: 300ms;
+  --d-slow: 700ms;
+  --ease: cubic-bezier(0.16, 1, 0.3, 1);
+
+  --radius: 4px;
+
+  /* concrete: fine pores + soft mottling, drawn as translucent noise over the flat colours */
+  --tex-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .3 -.13'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --tex-mottle: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='1200' height='1200'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.006' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .2 -.08'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  --tex-grain-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400'%3E%3Cfilter id='n' x='0' y='0' width='100%25' height='100%25'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .9 0 0 0 0 .9 0 0 0 0 .9 0 0 0 .26 -.11'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (min-width: 768px) { :root { --margin: 40px; --gutter: 20px; --header-h: 72px; } }
+@media (min-width: 1280px) { :root { --margin: 64px; --gutter: 24px; } }
+@media (min-width: 1440px) { :root { --margin: 80px; } }
+
+.dark {
+  --fg: var(--color-on-dark);
+  --fg-muted: var(--color-on-dark-muted);
+  --line: var(--color-line-dark);
+  --focus: var(--color-accent-on-dark);
+  --btn-bg: var(--color-accent-on-dark);
+  --btn-bg-hover: #86c4b8;
+  --btn-fg: var(--color-surface-dark);
+  --num: var(--color-accent-on-dark);
+  background: var(--color-surface-dark);
+  color: var(--fg);
+}

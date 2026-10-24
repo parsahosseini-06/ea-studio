@@ -57,10 +57,16 @@ p { max-width: 64ch; text-wrap: pretty; }
   @media (any-hover: hover) { .btn:hover .rl > span { transform: translateY(-100%); } }
 }
 .textlink {
-  display: inline-block; padding-block: 14px; font-weight: 500; text-decoration: underline;
-  text-decoration-thickness: 1px; text-underline-offset: 6px;
+  display: inline-block; padding-block: 14px; font-weight: 500; text-decoration: none;
+  /* one fixed line under text + arrow, so the arrow can slide over it */
+  background: linear-gradient(currentColor, currentColor) 0 calc(100% - 15px) / 100% 1px no-repeat;
 }
-.textlink::after { content: ' →'; }
+.textlink::after { content: ' →'; position: relative; left: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  .textlink::after { transition: left 350ms var(--ease); }
+  .textlink:focus-visible::after { left: 5px; }
+  @media (any-hover: hover) { .textlink:hover::after { left: 5px; } }
+}
 .tool {
   min-height: 44px; padding: 0 var(--s-4); border: 1px solid var(--line); border-radius: var(--radius);
   font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500;

@@ -97,7 +97,7 @@ export function Hero() {
         </p>
       </div>
       <figure className="hero-img">
-        <Pic img={hero.image} eager sizes="(min-width: 1024px) 58vw, 100vw" />
+        <Pic img={hero.image} eager high sizes="(min-width: 1024px) 58vw, 100vw" />
       </figure>
     </section>
   )
@@ -130,7 +130,7 @@ export function Work({ open }: { open: OpenLb }) {
         {projects.map((p) => (
           <article className="project" key={p.id}>
             <button className="project-fig rf" onClick={() => open(p.gallery, 0)} aria-label={`Open ${p.title} gallery`}>
-              <Pic img={p.lead} sizes="(min-width: 1024px) 50vw, 100vw" />
+              <Pic img={p.lead} eager sizes="(min-width: 1024px) 50vw, 100vw" />
             </button>
             <div className="project-info rv">
               <h3>{p.title}</h3>
@@ -150,7 +150,7 @@ export function Work({ open }: { open: OpenLb }) {
               {p.gallery.slice(1).map((g, i) => (
                 <li key={g.src} className={`rf c${i + 1}`}>
                   <button onClick={() => open(p.gallery, i + 1)} aria-label={`Open image ${i + 2} of ${p.title}`}>
-                    <Pic img={g} sizes="(min-width: 1024px) 25vw, 50vw" />
+                    <Pic img={g} eager sizes="(min-width: 1024px) 25vw, 50vw" />
                   </button>
                   <span className="label">Fig. 0{i + 2} — {p.title.split(' · ')[0]}</span>
                 </li>
@@ -224,7 +224,7 @@ export function Nava({ open }: { open: OpenLb }) {
                   aria-hidden={i !== active}
                   aria-label={`Enlarge drawing ${i + 1}`}
                 >
-                  <Pic img={s.fig} sizes="50vw" />
+                  <Pic img={s.fig} eager sizes="50vw" />
                 </button>
               ))}
             </div>
@@ -253,13 +253,13 @@ export function Approach() {
               <h3 className="rv">{it.sub}</h3>
               <p className="rv">{it.body}</p>
               {'fig' in it && it.fig && (
-                <figure className="rf"><Pic img={it.fig} sizes="(min-width: 1024px) 50vw, 100vw" /></figure>
+                <figure className="rf"><Pic img={it.fig} eager sizes="(min-width: 1024px) 50vw, 100vw" /></figure>
               )}
               {'swatches' in it && it.swatches && (
                 <ul className="swatches">
                   {it.swatches.map((s, i) => (
                     <li className="rf" key={s.src}>
-                      <Pic img={s} sizes="(min-width: 1024px) 24vw, 50vw" />
+                      <Pic img={s} eager sizes="(min-width: 1024px) 24vw, 50vw" />
                       <span className="label">{it.swatchNames?.[i]}</span>
                     </li>
                   ))}
@@ -292,7 +292,7 @@ function SketchStack() {
           onClick={() => setI((i + 1) % n)}
         >
           {approach.sketches.map((s, k) => (
-            <Pic key={s.cap} img={s.fig} className={k <= i ? 'on' : ''} sizes="(min-width: 1024px) 40vw, 90vw" />
+            <Pic key={s.cap} img={s.fig} eager className={k <= i ? 'on' : ''} sizes="(min-width: 1024px) 40vw, 90vw" />
           ))}
           {approach.sketches.slice(1).map((s, k) => (
             <span key={s.cap} className="sk-line" style={{ left: `${((k + 1) / n) * 100}%` }} aria-hidden="true" />
@@ -340,7 +340,7 @@ export function Studio() {
     <section className="section" id="studio">
       <div className="wrap studio">
         <figure className="studio-portrait rf">
-          <Pic img={studio.portrait} sizes="(min-width: 1024px) 40vw, 100vw" />
+          <Pic img={studio.portrait} eager sizes="(min-width: 1024px) 40vw, 100vw" />
         </figure>
         <div className="studio-copy">
           <SectionHead n="04" title="Studio" />

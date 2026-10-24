@@ -10,7 +10,7 @@ export const contact = {
   phone: { label: '+98 912 123 4567', href: 'tel:+989121234567' },
   whatsapp: { label: 'WhatsApp', href: 'https://wa.me/989121234567' },
   email: { label: 'hello@eastudio.com', href: 'mailto:hello@eastudio.com' },
-  instagram: { label: '@ehsan_ashtari', href: 'https://instagram.com/ehsan_ashtari' },
+  instagram: { label: '@eastudio.tehran', href: 'https://instagram.com/eastudio.tehran' },
 }
 
 export const nav = [
@@ -43,8 +43,8 @@ export const projects: Project[] = [
       ['Location', 'Dezashib, Tehran'],
       ['Years', '2023–2024'],
       ['Area', '130 m²'],
-      ['Principal architect', 'Ehsan Ashtari'],
-      ['Design team', 'Sanaz Aryafar, Hadis Mirbabaei, Arsalan Ahmadi'],
+      ['Principal architect', 'Elias Arvand'],
+      ['Design team', 'Mina Farrokhi, Darya Vaziri, Kasra Beheshti'],
     ],
     lead: img('dez-3', 'Double-height living space with a sunken seating area and a tall glazed wall'),
     gallery: [
@@ -151,8 +151,8 @@ export const services = [
 ]
 
 export const studio = {
-  portrait: img('portrait', 'Portrait of Ehsan Ashtari, founder and principal architect'),
-  name: 'Ehsan Ashtari',
+  portrait: img('portrait', 'Portrait of Elias Arvand, founder and principal architect'),
+  name: 'Elias Arvand',
   role: 'Founder & Principal Architect',
   bio: 'We believe architecture is not simply about creating objects, but about shaping the way people experience space. Our work explores the relationship between light, material, proportion and context to create spaces that feel both intentional and timeless.',
   manifesto: 'We design spaces where architecture, material and human experience come together.',

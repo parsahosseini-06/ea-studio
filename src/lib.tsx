@@ -5,7 +5,8 @@ export const st = (i: number) => ({ '--i': i }) as CSSProperties
 
 const srcSet = (img: Img, ext: string) => img.widths.map((w) => `/images/${img.name}-${w}.${ext} ${w}w`).join(', ')
 
-export const Pic = ({ img, className, sizes, eager }: { img: Img; className?: string; sizes?: string; eager?: boolean }) => (
+/** `eager`: load now. Needed for images hidden by a clip-path reveal (.rf, sketches, stage): lazy loading treats a fully clipped image as off-screen and only fetches it after the reveal starts. `high`: fetch priority, hero only. */
+export const Pic = ({ img, className, sizes, eager, high }: { img: Img; className?: string; sizes?: string; eager?: boolean; high?: boolean }) => (
   <picture>
     <source type="image/avif" srcSet={srcSet(img, 'avif')} sizes={sizes} />
     <source type="image/webp" srcSet={srcSet(img, 'webp')} sizes={sizes} />
@@ -16,7 +17,7 @@ export const Pic = ({ img, className, sizes, eager }: { img: Img; className?: st
       alt={img.alt}
       className={className}
       loading={eager ? 'eager' : 'lazy'}
-      fetchPriority={eager ? 'high' : undefined}
+      fetchPriority={high ? 'high' : undefined}
       decoding="async"
     />
   </picture>
@@ -75,7 +76,7 @@ export function useReveal() {
             io.unobserve(e.target)
           }
         }),
-      { threshold: 0.12 },
+      { threshold: 0, rootMargin: '0px 0px 5% 0px' },
     )
     document.querySelectorAll('.rv, .rf').forEach((el) => io.observe(el))
     return () => io.disconnect()

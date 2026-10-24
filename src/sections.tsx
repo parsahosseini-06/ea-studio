@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { approach, contact, cta, facts, hero, heroPlan, nav, nava, projects, ribbon, services, studio } from './content'
-import { Fill, Pic, Roll, useActiveSection, useHeroIntro, useNegativeCursor, type OpenLb } from './lib'
+import { Fill, Pic, Roll, useActiveSection, useHeroIntro, type OpenLb } from './lib'
 
 const navIds = nav.map((n) => n.id)
 
@@ -133,10 +133,8 @@ export function Hero() {
 }
 
 export function Ribbon() {
-  const ref = useRef<HTMLElement>(null)
-  useNegativeCursor(ref)
   return (
-    <section className="ribbon" aria-label="Selected images" ref={ref}>
+    <section className="ribbon" aria-label="Selected images">
       <div className="ribbon-track">
         {[0, 1].map((copy) => (
           <ul className="ribbon-set" key={copy} aria-hidden={copy === 1 ? true : undefined}>

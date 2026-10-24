@@ -70,11 +70,30 @@ export function useActiveSection(ids: string[]) {
 
 const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches
 
-/** Lenis smooth scroll. Anchor links honour the CSS scroll-margin-top under the fixed header; Lenis itself drops smoothing for reduced motion. Dialogs opt out with data-lenis-prevent. */
+/**
+ * Lenis smooth scroll. In-page links are handled here, not by Lenis' `anchors` option: that option leaves the browser's own jump running,
+ * the two fight and Lenis stays stuck "scrolling" (Home/End and scrollbar drags are then ignored until the next wheel event).
+ * Here the browser jump is cancelled and the page scrolls to a whole-pixel target below the fixed header over a fixed duration, so it always finishes.
+ * Lenis itself drops smoothing for reduced motion. Dialogs opt out with data-lenis-prevent.
+ */
 export function useSmoothScroll() {
   useEffect(() => {
-    const lenis = new Lenis({ autoRaf: true, anchors: true })
-    return () => lenis.destroy()
+    const lenis = new Lenis({ autoRaf: true })
+    const onClick = (e: MouseEvent) => {
+      const a = (e.target as Element).closest?.('a[href^="#"]') as HTMLAnchorElement | null
+      if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return
+      const el = document.getElementById(decodeURIComponent(a.hash.slice(1)))
+      if (!el) return
+      e.preventDefault()
+      const margin = parseFloat(getComputedStyle(el).scrollMarginTop) || 0
+      lenis.scrollTo(Math.max(0, Math.round(el.getBoundingClientRect().top + lenis.scroll - margin)), { duration: 1.2 })
+      history.pushState(null, '', a.hash)
+    }
+    document.addEventListener('click', onClick)
+    return () => {
+      document.removeEventListener('click', onClick)
+      lenis.destroy()
+    }
   }, [])
 }
 

@@ -410,16 +410,16 @@ export function Contact() {
     <section className="section contact" id="contact">
       <Strip cells={['Sheet 05', 'Contact', 'EA STUDIO', 'Tehran']} />
       <div className="wrap sec contact-in">
-        <div>
-          <h2 className="rv">{cta.title}</h2>
+        <h2 className="rv">{cta.title}</h2>
+        <div className="contact-row">
           <p className="lead rv">{cta.body}</p>
+          <ul className="actions rv">
+            <li><a className="btn" href={contact.phone.href}><Roll text={`Call ${contact.phone.label}`} /></a></li>
+            <li><a href={contact.whatsapp.href}><span>WhatsApp</span> Message us</a></li>
+            <li><a href={contact.email.href}><span>Email</span> {contact.email.label}</a></li>
+            <li><a href={contact.instagram.href}><span>Instagram</span> {contact.instagram.label}</a></li>
+          </ul>
         </div>
-        <ul className="actions rv">
-          <li><a className="btn" href={contact.phone.href}><Roll text={`Call ${contact.phone.label}`} /></a></li>
-          <li><a href={contact.whatsapp.href}><span>WhatsApp</span> Message us</a></li>
-          <li><a href={contact.email.href}><span>Email</span> {contact.email.label}</a></li>
-          <li><a href={contact.instagram.href}><span>Instagram</span> {contact.instagram.label}</a></li>
-        </ul>
       </div>
     </section>
   )

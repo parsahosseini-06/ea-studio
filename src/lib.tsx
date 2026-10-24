@@ -22,6 +22,31 @@ export const Pic = ({ img, className, sizes, eager }: { img: Img; className?: st
   </picture>
 )
 
+/** Button label: letters roll up one after another on hover/focus; the copy rolling in is identical, so it reads as one smooth wave. */
+export const Roll = ({ text }: { text: string }) => {
+  let i = 0
+  return (
+    <>
+      <span className="sr-only">{text}</span>
+      <span className="roll" aria-hidden="true">
+        {text.split(' ').map((word, w) => (
+          <span key={w}>
+            {w > 0 && ' '}
+            <span className="rw">
+              {[...word].map((c) => (
+                <span key={i} className="rl" style={st(i++)}>
+                  <span>{c}</span>
+                  <span>{c}</span>
+                </span>
+              ))}
+            </span>
+          </span>
+        ))}
+      </span>
+    </>
+  )
+}
+
 /** Id of the section currently crossing the middle of the viewport. */
 export function useActiveSection(ids: string[]) {
   const [active, setActive] = useState('')

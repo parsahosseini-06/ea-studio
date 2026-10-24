@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { approach, contact, cta, hero, nav, nava, projects, ribbon, services, studio } from './content'
-import { Fill, Pic, st, useActiveSection, type OpenLb } from './lib'
+import { Fill, Pic, Roll, st, useActiveSection, type OpenLb } from './lib'
 
 const navIds = nav.map((n) => n.id)
 
@@ -50,7 +50,7 @@ export function Header() {
               </a>
             ))}
           </nav>
-          <a className="btn header-cta" href="#contact">Start a project</a>
+          <a className="btn header-cta" href="#contact"><Roll text="Start a project" /></a>
           <button className="tool menu-btn" aria-haspopup="dialog" onClick={() => menu.current?.showModal()}>
             Menu
           </button>
@@ -79,7 +79,7 @@ export function Header() {
         </div>
       </dialog>
 
-      <a className={`pill btn${pill ? ' show' : ''}`} href="#contact" tabIndex={pill ? 0 : -1}>Contact</a>
+      <a className={`pill btn${pill ? ' show' : ''}`} href="#contact" tabIndex={pill ? 0 : -1}><Roll text="Contact" /></a>
     </>
   )
 }
@@ -92,7 +92,7 @@ export function Hero() {
         <h1 className="rise" style={st(1)}>{hero.title}</h1>
         <p className="lead rise" style={st(2)}>{hero.sub}</p>
         <p className="hero-cta rise" style={st(3)}>
-          <a className="btn" href="#work">View selected work</a>
+          <a className="btn" href="#work"><Roll text="View selected work" /></a>
           <a className="textlink" href="#contact">Start a project</a>
         </p>
       </div>
@@ -380,7 +380,7 @@ export function Contact() {
           <p className="lead rv">{cta.body}</p>
         </div>
         <ul className="actions rv">
-          <li><a className="btn" href={contact.phone.href}>Call {contact.phone.label}</a></li>
+          <li><a className="btn" href={contact.phone.href}><Roll text={`Call ${contact.phone.label}`} /></a></li>
           <li><a href={contact.whatsapp.href}><span>WhatsApp</span> Message us</a></li>
           <li><a href={contact.email.href}><span>Email</span> {contact.email.label}</a></li>
           <li><a href={contact.instagram.href}><span>Instagram</span> {contact.instagram.label}</a></li>

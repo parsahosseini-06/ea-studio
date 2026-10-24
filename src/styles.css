@@ -42,7 +42,20 @@ p { max-width: 64ch; text-wrap: pretty; }
   font-weight: 500; text-decoration: none; transition: background-color var(--d-fast), transform var(--d-fast);
 }
 .btn:hover { background: var(--btn-bg-hover); }
-.btn:active { transform: translateY(1px); }
+.btn:active { transform: scale(0.97); }
+@media (prefers-reduced-motion: reduce) { .btn:active { transform: none; } }
+
+/* ---------- slide-text label: letters roll up one after another, the copy rolling in is identical ---------- */
+.sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; padding: 0; overflow: hidden; clip-path: inset(50%); white-space: nowrap; }
+.roll { display: inline-block; line-height: 1.3; }
+.rw { display: inline-block; white-space: nowrap; }
+.rl { display: inline-block; vertical-align: top; height: 1.3em; overflow: hidden; }
+.rl > span { display: block; }
+@media (prefers-reduced-motion: no-preference) {
+  .rl > span { transition: transform 420ms cubic-bezier(0.77, 0, 0.175, 1); transition-delay: calc(var(--i) * 20ms); }
+  .btn:focus-visible .rl > span { transform: translateY(-100%); }
+  @media (hover: hover) { .btn:hover .rl > span { transform: translateY(-100%); } }
+}
 .textlink {
   display: inline-block; padding-block: 14px; font-weight: 500; text-decoration: underline;
   text-decoration-thickness: 1px; text-underline-offset: 6px;

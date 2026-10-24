@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties, type RefObject } from 'react'
 import Lenis from 'lenis'
 import 'lenis/dist/lenis.css'
 import { animate, stagger } from 'animejs'
@@ -142,6 +142,73 @@ export function useHeroIntro() {
       b.revert()
     }
   }, [])
+}
+
+/**
+ * Negative cursor for a strip: a white circle in difference blend mode follows the mouse and shows what is under it as a photographic negative.
+ * The blended element is only moved (a transform on its parent would isolate it from the page); anime.js scales the dot inside it,
+ * in on enter, bigger over an image, out on leave. Mouse only, and nothing is created for touch.
+ */
+export function useNegativeCursor(ref: RefObject<HTMLElement | null>) {
+  useEffect(() => {
+    const host = ref.current
+    if (!host || !matchMedia('(any-hover: hover) and (pointer: fine)').matches) return
+    const cursor = document.createElement('div')
+    const dot = document.createElement('span')
+    cursor.className = 'neg-cursor'
+    cursor.setAttribute('aria-hidden', 'true')
+    cursor.append(dot)
+    document.body.append(cursor)
+
+    const target = { x: 0, y: 0 }
+    const pos = { x: 0, y: 0 }
+    const size = { v: 0 }
+    let to = 0
+    let inside = false
+    let raf = 0
+    const follow = () => {
+      pos.x += (target.x - pos.x) * 0.2
+      pos.y += (target.y - pos.y) * 0.2
+      cursor.style.transform = `translate3d(${pos.x}px,${pos.y}px,0)`
+      raf = requestAnimationFrame(follow)
+    }
+    const grow = (next: number) => {
+      if (next === to) return
+      to = next
+      animate(size, {
+        v: next,
+        duration: reduced() ? 0 : 450,
+        ease: 'outExpo',
+        onUpdate: () => (dot.style.transform = `scale(${size.v})`),
+        onComplete: () => !inside && cancelAnimationFrame(raf),
+      })
+    }
+    const onMove = (e: PointerEvent) => {
+      if (e.pointerType !== 'mouse') return
+      target.x = e.clientX
+      target.y = e.clientY
+      if (!inside) {
+        inside = true
+        pos.x = target.x
+        pos.y = target.y
+        cancelAnimationFrame(raf)
+        raf = requestAnimationFrame(follow)
+      }
+      grow((e.target as Element).closest('li') ? 1.5 : 1)
+    }
+    const onLeave = () => {
+      inside = false
+      grow(0)
+    }
+    host.addEventListener('pointermove', onMove)
+    host.addEventListener('pointerleave', onLeave)
+    return () => {
+      host.removeEventListener('pointermove', onMove)
+      host.removeEventListener('pointerleave', onLeave)
+      cancelAnimationFrame(raf)
+      cursor.remove()
+    }
+  }, [ref])
 }
 
 export type Lb = { items: Img[]; i: number } | null

@@ -3,17 +3,23 @@ import type { Img } from './content'
 
 export const st = (i: number) => ({ '--i': i }) as CSSProperties
 
+const srcSet = (img: Img, ext: string) => img.widths.map((w) => `/images/${img.name}-${w}.${ext} ${w}w`).join(', ')
+
 export const Pic = ({ img, className, sizes, eager }: { img: Img; className?: string; sizes?: string; eager?: boolean }) => (
-  <img
-    src={img.src}
-    width={img.w}
-    height={img.h}
-    alt={img.alt}
-    sizes={sizes}
-    className={className}
-    loading={eager ? 'eager' : 'lazy'}
-    decoding="async"
-  />
+  <picture>
+    <source type="image/avif" srcSet={srcSet(img, 'avif')} sizes={sizes} />
+    <source type="image/webp" srcSet={srcSet(img, 'webp')} sizes={sizes} />
+    <img
+      src={img.src}
+      width={img.w}
+      height={img.h}
+      alt={img.alt}
+      className={className}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchPriority={eager ? 'high' : undefined}
+      decoding="async"
+    />
+  </picture>
 )
 
 /** Id of the section currently crossing the middle of the viewport. */
@@ -77,7 +83,7 @@ export function Lightbox({ lb, set }: { lb: Lb; set: (v: Lb) => void }) {
     >
       {cur && lb && (
         <>
-          <img src={cur.src} alt={cur.alt} />
+          <Pic img={cur} sizes="100vw" />
           <div className="lb-bar">
             <span className="label" aria-live="polite">
               {lb.i + 1} / {lb.items.length}

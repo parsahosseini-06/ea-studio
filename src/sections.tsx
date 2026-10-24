@@ -111,7 +111,7 @@ export function Ribbon() {
           <ul className="ribbon-set" key={copy} aria-hidden={copy === 1 ? true : undefined}>
             {ribbon.map((r, i) => (
               <li key={i}>
-                <Pic img={copy === 1 ? { ...r.fig, alt: '' } : r.fig} sizes="30vw" />
+                <Pic img={copy === 1 ? { ...r.fig, alt: '' } : r.fig} sizes="(min-width: 1024px) 400px, 300px" />
                 <span className="label">{r.cap}</span>
               </li>
             ))}
@@ -130,7 +130,7 @@ export function Work({ open }: { open: OpenLb }) {
         {projects.map((p) => (
           <article className="project" key={p.id}>
             <button className="project-fig rf" onClick={() => open(p.gallery, 0)} aria-label={`Open ${p.title} gallery`}>
-              <Pic img={p.lead} sizes="(min-width: 1024px) 58vw, 100vw" />
+              <Pic img={p.lead} sizes="(min-width: 1024px) 50vw, 100vw" />
             </button>
             <div className="project-info rv">
               <h3>{p.title}</h3>
@@ -150,7 +150,7 @@ export function Work({ open }: { open: OpenLb }) {
               {p.gallery.slice(1).map((g, i) => (
                 <li key={g.src} className={`rf c${i + 1}`}>
                   <button onClick={() => open(p.gallery, i + 1)} aria-label={`Open image ${i + 2} of ${p.title}`}>
-                    <Pic img={g} sizes="(min-width: 1024px) 30vw, 60vw" />
+                    <Pic img={g} sizes="(min-width: 1024px) 25vw, 50vw" />
                   </button>
                   <span className="label">Fig. 0{i + 2} — {p.title.split(' · ')[0]}</span>
                 </li>

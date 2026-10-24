@@ -13,11 +13,11 @@ npm run build    # type-check + production build into dist/
 - `src/tokens.css` — palette, type scale, spacing, motion tokens. Every text/background pair is >= 4.5:1 (large text >= 3:1).
 - `src/styles.css` — layout. Breakpoints: 768 (tablet), 1024 (desktop nav + 12-column layouts), 1280/1440 (wider margins).
 - `src/sections.tsx` — Header, Hero, Work, Nava, Approach, Services, Studio, Contact, Footer.
-- `public/images` — JPEGs exported from the old Framer site (see below).
+- `public/images` — source JPEGs exported from the old Framer site, plus generated `-480/-800/-1200/-1800` AVIF and WebP variants. After adding or replacing a JPG run `npm run images` (regenerates the variants and `src/images.json`; takes a few minutes). Commit the output.
 
 ## Open items for the owner
 - Replace placeholder contact data in `src/content.ts` (`contact`): phone, email, Instagram.
-- Daroos metadata was a copy of Dezashib on the Framer site; set the real area, years and team (`projects`).
+- Daroos years, area and design team were a copy of Dezashib on the Framer site, so they are hidden; add the real values to `projects` (and the year back to its `ribbon` caption).
 - Swap the Framer-exported images for original high-resolution photos; add a photo of the finished Nava House and a vector ground-floor plan to turn the drawings step into an SVG line-drawing animation.
 - Add an absolute `og:image` in `index.html` once the production URL is known.
 - Confirm what "Development" means in Services, and the studio tagline.

@@ -11,6 +11,7 @@ body {
   background: var(--color-bg);
   -webkit-font-smoothing: antialiased;
 }
+picture { display: contents; }
 img { display: block; max-width: 100%; height: auto; }
 h1, h2, h3, h4, p, ul, ol, dl, dd, figure { margin: 0; }
 ul, ol { padding: 0; list-style: none; }
@@ -139,28 +140,19 @@ p { max-width: 64ch; text-wrap: pretty; }
 /* ---------- work ---------- */
 .project { display: grid; gap: var(--s-5); margin-bottom: var(--s-10); }
 .project-fig { display: block; width: 100%; overflow: hidden; }
-.project-fig img, .collage img { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: center 40%; transition: transform var(--d-slow) var(--ease); }
+.project-fig img, .collage img { width: 100%; aspect-ratio: 3 / 2; object-fit: cover; object-position: center 40%; transition: transform var(--d-slow) var(--ease); }
 .project-fig:hover img, .collage button:hover img { transform: scale(1.03); }
-.project-fig { position: relative; z-index: 1; }
-.collage { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: start; }
-.collage li { position: relative; display: grid; gap: var(--s-2); }
+.collage { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--gutter); align-items: start; }
+.collage li { display: grid; gap: var(--s-2); }
 .collage button { display: block; width: 100%; overflow: hidden; }
-.collage .c1 { grid-column: 1 / 8; z-index: 2; }
-.collage .c1 img { aspect-ratio: 3 / 4; }
-.collage .c2 { grid-column: 6 / 13; margin-top: calc(var(--s-8) * -1); z-index: 3; }
 .project-info h3 { font-size: var(--fs-project); }
-@media (min-width: 768px) { .project-fig img { aspect-ratio: 3 / 2; } }
 @media (min-width: 1024px) {
   .project { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); row-gap: var(--s-6); }
-  .project-fig { grid-column: 1 / 8; grid-row: 1; }
-  .project-info { grid-column: 9 / 13; grid-row: 1; align-self: start; padding-top: var(--s-6); position: relative; z-index: 5; }
-  .collage { display: contents; }
-  .collage .c1 { grid-column: 6 / 9; grid-row: 2; margin-top: calc(var(--s-11) * -1); }
-  .collage .c2 { grid-column: 10 / 13; grid-row: 2; margin-top: var(--s-8); }
-  .project:nth-of-type(even) .project-fig { grid-column: 6 / 13; }
-  .project:nth-of-type(even) .collage .c1 { grid-column: 5 / 9; }
-  .project:nth-of-type(even) .collage .c2 { grid-column: 1 / 4; }
-  .project:nth-of-type(even) .project-info { grid-column: 1 / 5; margin-top: var(--s-10); }
+  .project-fig { grid-column: 1 / 7; grid-row: 1; }
+  .project-info { grid-column: 8 / 13; grid-row: 1; align-self: start; padding-top: var(--s-6); }
+  .collage { grid-column: 1 / 7; grid-row: 2; }
+  .project:nth-of-type(even) .project-fig, .project:nth-of-type(even) .collage { grid-column: 7 / 13; }
+  .project:nth-of-type(even) .project-info { grid-column: 1 / 6; }
   .shead { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
   .shead h2 { grid-column: 1 / 7; }
   .shead .lead { grid-column: 8 / 13; }

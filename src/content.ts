@@ -1,9 +1,9 @@
 import dims from './images.json'
 
-export type Img = { src: string; w: number; h: number; alt: string }
+export type Img = { name: string; src: string; w: number; h: number; widths: number[]; alt: string }
 
-const d = dims as unknown as Record<string, [number, number]>
-const img = (name: string, alt: string): Img => ({ src: `/images/${name}.jpg`, w: d[name][0], h: d[name][1], alt })
+const d = dims as unknown as Record<string, [number, number, number[]]>
+const img = (name: string, alt: string): Img => ({ name, src: `/images/${name}.jpg`, w: d[name][0], h: d[name][1], widths: d[name][2], alt })
 
 // TODO(owner): phone, email and Instagram carried over from the Framer site; confirm they are real.
 export const contact = {
@@ -35,7 +35,7 @@ export type Project = {
   gallery: Img[]
 }
 
-// TODO(owner): Daroos data was a copy of Dezashib on the Framer site (area, years, team). Replace with the real values.
+// TODO(owner): Daroos years, area and design team were a copy of Dezashib on the Framer site, so they are left out until the real values are known.
 export const projects: Project[] = [
   {
     id: 'dezashib',
@@ -59,10 +59,7 @@ export const projects: Project[] = [
     title: 'Daroos · Residential',
     meta: [
       ['Location', 'Tehran'],
-      ['Years', '2023–2024'],
-      ['Area', '130 m²'],
       ['Principal architect', 'Ehsan Ashtari'],
-      ['Design team', 'Sanaz Aryafar, Hadis Mirbabaei, Arsalan Ahmadi'],
     ],
     lead: img('dar-1', 'Classical living room with a crystal chandelier, wall panelling and pale marble floor'),
     gallery: [
@@ -74,11 +71,11 @@ export const projects: Project[] = [
 ]
 
 export const ribbon = [
-  { fig: projects[1].gallery[1], cap: 'Daroos · 2023–2024' },
+  { fig: projects[1].gallery[1], cap: 'Daroos' },
   { fig: projects[0].gallery[0], cap: 'Dezashib · 2023–2024' },
-  { fig: projects[1].gallery[2], cap: 'Daroos · 2023–2024' },
+  { fig: projects[1].gallery[2], cap: 'Daroos' },
   { fig: projects[0].gallery[1], cap: 'Dezashib · 2023–2024' },
-  { fig: projects[1].gallery[0], cap: 'Daroos · 2023–2024' },
+  { fig: projects[1].gallery[0], cap: 'Daroos' },
   { fig: projects[0].gallery[2], cap: 'Dezashib · 2023–2024' },
 ]
 

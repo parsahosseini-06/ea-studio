@@ -288,7 +288,7 @@ p { max-width: 64ch; text-wrap: pretty; }
 .actions li:not(:first-child) a { display: flex; justify-content: space-between; align-items: center; gap: var(--s-4); min-height: 64px; border-top: 1px solid var(--line); text-decoration: none; }
 .actions li:last-child a { border-bottom: 1px solid var(--line); }
 .actions li:not(:first-child) a:hover { color: var(--color-accent-on-dark); }
-.actions span { font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; color: var(--fg-muted); }
+.actions li:not(:first-child) a > span { font-size: var(--fs-label); text-transform: uppercase; letter-spacing: 0.08em; font-weight: 500; color: var(--fg-muted); }
 @media (min-width: 1024px) {
   .contact-in { grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--gutter); align-items: end; }
   .contact-in > div { grid-column: 1 / 8; }

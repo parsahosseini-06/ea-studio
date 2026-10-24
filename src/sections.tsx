@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { approach, contact, cta, hero, nav, nava, projects, ribbon, services, studio } from './content'
-import { Fill, Pic, Roll, st, useActiveSection, type OpenLb } from './lib'
+import { Fill, Pic, Roll, useActiveSection, useHeroIntro, type OpenLb } from './lib'
 
 const navIds = nav.map((n) => n.id)
 
@@ -57,7 +57,7 @@ export function Header() {
         </div>
       </header>
 
-      <dialog ref={menu} className="menu dark" aria-label="Menu" onClick={(e) => e.target === menu.current && menu.current?.close()}>
+      <dialog ref={menu} className="menu dark" data-lenis-prevent aria-label="Menu" onClick={(e) => e.target === menu.current && menu.current?.close()}>
         <div className="wrap menu-in">
           <div className="menu-top">
             <span className="wordmark">EA STUDIO</span>
@@ -85,13 +85,14 @@ export function Header() {
 }
 
 export function Hero() {
+  useHeroIntro()
   return (
     <section className="hero" id="top">
       <div className="hero-copy">
-        <p className="label rise" style={st(0)}>{hero.eyebrow}</p>
-        <h1 className="rise" style={st(1)}>{hero.title}</h1>
-        <p className="lead rise" style={st(2)}>{hero.sub}</p>
-        <p className="hero-cta rise" style={st(3)}>
+        <p className="label rise">{hero.eyebrow}</p>
+        <h1 className="rise">{hero.title}</h1>
+        <p className="lead rise">{hero.sub}</p>
+        <p className="hero-cta rise">
           <a className="btn" href="#work"><Roll text="View selected work" /></a>
           <a className="textlink" href="#contact">Start a project</a>
         </p>

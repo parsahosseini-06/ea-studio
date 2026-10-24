@@ -1,4 +1,7 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react'
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from 'react'
+import Lenis from 'lenis'
+import 'lenis/dist/lenis.css'
+import { animate, stagger } from 'animejs'
 import type { Img } from './content'
 
 export const st = (i: number) => ({ '--i': i }) as CSSProperties
@@ -65,21 +68,79 @@ export function useActiveSection(ids: string[]) {
   return active
 }
 
-/** Adds `.in` once to every .rv / .rf element when it scrolls into view. */
-export function useReveal() {
+const reduced = () => matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Lenis smooth scroll. Anchor links honour the CSS scroll-margin-top under the fixed header; Lenis itself drops smoothing for reduced motion. Dialogs opt out with data-lenis-prevent. */
+export function useSmoothScroll() {
   useEffect(() => {
+    const lenis = new Lenis({ autoRaf: true, anchors: true })
+    return () => lenis.destroy()
+  }, [])
+}
+
+/**
+ * anime.js scroll reveals: .rv blocks rise and fade in, .rf images wipe open from the top.
+ * Targets are hidden inline before first paint (no flash) and unhidden for reduced motion or when JS is off.
+ */
+export function useReveal() {
+  useLayoutEffect(() => {
+    if (reduced()) return
+    const els = [...document.querySelectorAll<HTMLElement>('.rv, .rf')]
+    const isImg = (el: HTMLElement) => el.classList.contains('rf')
+    const target = (el: HTMLElement) => (isImg(el) ? el.querySelector<HTMLElement>('img')! : el)
+    els.forEach((el) => {
+      const t = target(el)
+      if (isImg(el)) t.style.clipPath = 'inset(0 0 100% 0)'
+      else Object.assign(t.style, { opacity: '0', transform: 'translateY(20px)' })
+    })
     const io = new IntersectionObserver(
       (es) =>
         es.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.classList.add('in')
-            io.unobserve(e.target)
-          }
+          if (!e.isIntersecting) return
+          io.unobserve(e.target)
+          const el = e.target as HTMLElement
+          const t = target(el)
+          const done = () => ['clip-path', 'opacity', 'transform'].forEach((k) => t.style.removeProperty(k))
+          animate(
+            t,
+            isImg(el)
+              ? { clipPath: ['inset(0 0 100% 0)', 'inset(0 0 0% 0)'], duration: 700, ease: 'outExpo', onComplete: done }
+              : { opacity: [0, 1], translateY: [20, 0], duration: 700, ease: 'outExpo', onComplete: done },
+          )
         }),
       { threshold: 0, rootMargin: '0px 0px 5% 0px' },
     )
-    document.querySelectorAll('.rv, .rf').forEach((el) => io.observe(el))
+    els.forEach((el) => io.observe(el))
     return () => io.disconnect()
+  }, [])
+}
+
+/** Hero entrance: copy rises in one line after another while the image wipes open from the right. */
+export function useHeroIntro() {
+  useLayoutEffect(() => {
+    if (reduced()) return
+    const copy = [...document.querySelectorAll<HTMLElement>('.hero .rise')]
+    const fig = document.querySelector<HTMLElement>('.hero-img')!
+    copy.forEach((el) => Object.assign(el.style, { opacity: '0', transform: 'translateY(16px)' }))
+    fig.style.clipPath = 'inset(0 0 0 100%)'
+    const a = animate(copy, {
+      opacity: [0, 1],
+      translateY: [16, 0],
+      delay: stagger(90, { start: 250 }),
+      duration: 800,
+      ease: 'outExpo',
+      onComplete: () => copy.forEach((el) => (el.style.opacity = el.style.transform = '')),
+    })
+    const b = animate(fig, {
+      clipPath: ['inset(0 0 0 100%)', 'inset(0 0 0 0%)'],
+      duration: 1100,
+      ease: 'outExpo',
+      onComplete: () => fig.style.removeProperty('clip-path'),
+    })
+    return () => {
+      a.revert()
+      b.revert()
+    }
   }, [])
 }
 
@@ -99,6 +160,7 @@ export function Lightbox({ lb, set }: { lb: Lb; set: (v: Lb) => void }) {
     <dialog
       ref={ref}
       className="lightbox dark"
+      data-lenis-prevent
       aria-label="Image viewer"
       onClose={() => set(null)}
       onClick={(e) => e.target === ref.current && set(null)}

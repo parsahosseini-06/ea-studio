@@ -1,10 +1,11 @@
 import { useState } from 'react'
-import { Lightbox, useReveal, type Lb, type OpenLb } from './lib'
+import { Lightbox, useReveal, useSmoothScroll, type Lb, type OpenLb } from './lib'
 import { Header, Hero, Ribbon, Work, Nava, Approach, Services, Studio, Contact, Footer } from './sections'
 
 export default function App() {
   const [lb, setLb] = useState<Lb>(null)
   const open: OpenLb = (items, i) => setLb({ items, i })
+  useSmoothScroll()
   useReveal()
   return (
     <>

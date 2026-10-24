@@ -116,19 +116,12 @@ p { max-width: 64ch; text-wrap: pretty; }
   .menu-btn, .pill { display: none; }
 }
 
-/* ---------- reveals (content stays visible without JS or with reduced motion) ---------- */
+/* ---------- motion ----------
+   Entrances and scroll reveals run in anime.js (useHeroIntro, useReveal in lib.tsx); Lenis handles smooth scroll.
+   Hover and state transitions stay in CSS. */
 @media (prefers-reduced-motion: no-preference) {
-  .hero-img { animation: wipe 1100ms var(--ease) both; }
-  .rise { animation: rise 800ms var(--ease) both; animation-delay: calc(var(--i, 0) * 90ms + 250ms); }
-  .js .rv { opacity: 0; transform: translateY(20px); transition: opacity 700ms var(--ease), transform 700ms var(--ease); }
-  .js .rv.in { opacity: 1; transform: none; }
-  /* clip the image, not the observed wrapper: observers ignore fully clipped boxes */
-  .js .rf img { clip-path: inset(0 0 100% 0); transition: clip-path 700ms var(--ease), transform var(--d-slow) var(--ease); }
-  .js .rf.in img { clip-path: inset(0); }
   .stage-fig { transition: clip-path 800ms var(--ease); }
 }
-@keyframes wipe { from { clip-path: inset(0 0 0 100%); } }
-@keyframes rise { from { opacity: 0; transform: translateY(16px); } }
 
 /* ---------- section head ---------- */
 .shead { display: grid; gap: var(--s-4); padding-top: var(--s-5); border-top: 1px solid var(--line); margin-bottom: var(--s-8); }
